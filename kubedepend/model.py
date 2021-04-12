@@ -5,6 +5,8 @@ import uuid
 import os.path
 from datetime import datetime
 
+import constants as c
+
 
 class BackendMetrics:
     def __init__(self, availability=None, mut=None, mdt=None, mtbf=None):
@@ -90,14 +92,10 @@ class MeasurementSequenceResult:
         self.measurements.append(metric)
 
     def save_results(self, filename):
-
         # if there are result values
         if self.measurements:
-            # now = int(time.time())
             git_commit_short = subprocess.check_output(
-                ['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
-
-            # open(filename, mode='x').close()
+                ['git', 'rev-parse', '--short', 'HEAD'], cwd=c.PATH_TO_STACK_REPO).decode('ascii').strip()
 
             with open(filename, mode='a+') as csv_file:
                 fieldnames = ['id', 'measurement_seq_start_time'] \
@@ -109,7 +107,7 @@ class MeasurementSequenceResult:
                         'load_duration',
                         'locust_user_count',
                         'locust_spawn_rate',
-                        'prev_git_commit_short',
+                        'prev_stack_git_commit_short',
                         'comment']
 
                 print(fieldnames)
@@ -128,7 +126,7 @@ class MeasurementSequenceResult:
                     row['load_duration'] = self.load_duration
                     row['locust_user_count'] = self.locust_user_count
                     row['locust_spawn_rate'] = self.locust_spawn_rate
-                    row['prev_git_commit_short'] = git_commit_short
+                    row['prev_stack_git_commit_short'] = git_commit_short
                     row['comment'] = self.comment
 
                     writer.writerow(row)
