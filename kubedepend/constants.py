@@ -63,3 +63,5 @@ FAULT_PROFILES = {
     'stress-mem': [{'chaos': 'stressMemChaos', 'strength': 'medium'}],
     'none': []
 }
+
+PATH_TO_STACK_REPO = '../../msc-onlab'

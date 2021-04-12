@@ -251,8 +251,8 @@ def get_dependability_metrics(range_length):
 
 def check_working_dir():
     # Check if in right working dir
-    actual_working_dir = '/'.join(str(pathlib.Path.cwd()).split('/')[-3:])
-    expected_working_dir = 'msc-onlab/kubedepend/kubedepend'
+    actual_working_dir = '/'.join(str(pathlib.Path.cwd()).split('/')[-2:])
+    expected_working_dir = 'kubedepend/kubedepend'
 
     if (actual_working_dir != expected_working_dir):
         raise RuntimeError(f'Working directory must be {expected_working_dir}')
@@ -260,7 +260,7 @@ def check_working_dir():
 
 def archive_stack(datestring):
     with tarfile.open(f'archives/archive-{datestring}.tgz', 'w:gz') as tar:
-        tar.add('../../', arcname=os.path.basename('../../'),
+        tar.add(c.PATH_TO_STACK_REPO, arcname=os.path.basename(c.PATH_TO_STACK_REPO),
                 filter=archive_filter)
 
 
